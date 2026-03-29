@@ -1725,6 +1725,9 @@ function loadCharts() {
 
 function loadPresenceChart() {
   const ctx = document.getElementById("presenceChart");
+  
+  console.log("📈 Chargement graphique des présences...");
+  console.log("📊 Nombre de présences:", database.presences.length);
 
   // Grouper les présences par date
   const presencesByDate = {};
@@ -1739,6 +1742,9 @@ function loadPresenceChart() {
     }
   });
 
+  console.log("📅 Dates trouvées:", Object.keys(presencesByDate).length);
+  console.log("📅 Données par date:", presencesByDate);
+
   // Trier par date et prendre les 10 dernières
   const sortedDates = Object.keys(presencesByDate).sort().slice(-10);
   const labels = sortedDates.map((d) =>
@@ -1750,8 +1756,17 @@ function loadPresenceChart() {
   const presentsData = sortedDates.map((d) => presencesByDate[d].presents);
   const absentsData = sortedDates.map((d) => presencesByDate[d].absents);
 
+  console.log("📊 Labels:", labels);
+  console.log("✅ Présents:", presentsData);
+  console.log("❌ Absents:", absentsData);
+
   if (presenceChartInstance) {
     presenceChartInstance.destroy();
+  }
+
+  if (typeof Chart === "undefined") {
+    console.error("❌ Chart.js n'est pas chargé!");
+    return;
   }
 
   presenceChartInstance = new Chart(ctx, {
@@ -1794,6 +1809,8 @@ function loadPresenceChart() {
       },
     },
   });
+  
+  console.log("✅ Graphique des présences créé");
 }
 
 function loadRoleChart() {
