@@ -51,9 +51,15 @@ async function loadPresencesFromSupabase() {
 
     if (error) throw error;
 
-    database.presences = data || [];
-    console.log(`✅ ${data?.length || 0} présences chargées`);
-    return data;
+    // Normaliser les données: convertir membreid en membreId
+    const normalizedData = (data || []).map((presence) => ({
+      ...presence,
+      membreId: presence.membreid,
+    }));
+
+    database.presences = normalizedData;
+    console.log(`✅ ${normalizedData.length} présences chargées`);
+    return normalizedData;
   } catch (error) {
     console.error("Erreur chargement présences:", error);
     return [];
@@ -174,8 +180,14 @@ async function enregistrerPresenceSupabase(data) {
 
     if (error) throw error;
 
-    database.presences.push(newPresence);
-    return newPresence;
+    // Normaliser les données avant de les ajouter
+    const normalizedPresence = {
+      ...newPresence,
+      membreId: newPresence.membreid,
+    };
+
+    database.presences.push(normalizedPresence);
+    return normalizedPresence;
   } catch (error) {
     console.error("Erreur enregistrement présence:", error);
     throw error;
