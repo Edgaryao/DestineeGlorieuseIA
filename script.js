@@ -1460,6 +1460,13 @@ function loadMemberSelect() {
 }
 
 function loadStats() {
+  // Vérifier que les données sont chargées
+  if (!database || !database.personnes || !database.presences) {
+    console.warn("Données non chargées pour les stats");
+    statsDisplay.innerHTML = "<p>Chargement des données...</p>";
+    return;
+  }
+  
   // Charger les statistiques générales
   loadGeneralStats();
 
@@ -1705,6 +1712,13 @@ let roleChartInstance = null;
 let memberChartInstance = null;
 
 function loadCharts() {
+  // Vérifier que les données sont chargées
+  if (!database || !database.personnes || !database.presences) {
+    console.warn("Données non chargées, attente...");
+    setTimeout(loadCharts, 500);
+    return;
+  }
+  
   loadPresenceChart();
   loadRoleChart();
   loadMemberChart();
