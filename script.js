@@ -87,7 +87,7 @@ const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
 
 // Configuration API Groq
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY = "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";
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 // Historique de conversation pour la mémoire de l'IA
